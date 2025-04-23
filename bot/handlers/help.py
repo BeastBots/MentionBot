@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
+from aiogram.enums import ParseMode
 from datetime import datetime
 
 async def help_command(message: Message, db):
@@ -14,7 +15,7 @@ async def help_command(message: Message, db):
         "/broadcast <msg> — Owner only: broadcast message\n"
         "/stats — Owner only: show bot stats\n"
     )
-    await message.reply(text, parse_mode=types.ParseMode.HTML)
+    await message.reply(text, parse_mode=ParseMode.HTML)
     await db["commands.history"].insert_one({
         "command": "help",
         "user_id": message.from_user.id,

@@ -1,7 +1,8 @@
 import logging
 import asyncio
 from aiohttp import web
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
+from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 from motor.motor_asyncio import AsyncIOMotorClient
 from config import BOT_TOKEN, MONGODB_URI, OWNER_ID
@@ -22,7 +23,7 @@ async def on_startup(bot: Bot):
         await db.create_collection("commands.history")
     if "boot" not in colls:
         await db.create_collection("boot")
-    await db["boot"].insert_one({"event": "booted", "time": str(types.datetime.datetime.now())})
+    await db["boot"].insert_one({"event": "booted", "time": str(asyncio.get_event_loop().time())})
     commands = [
         BotCommand(command="help", description="Show help and instructions"),
         BotCommand(command="settings", description="Show settings menu (admins only)"),
@@ -33,7 +34,7 @@ async def on_startup(bot: Bot):
 
 async def main():
     logging.basicConfig(level=logging.INFO)
-    bot = Bot(token=BOT_TOKEN, parse_mode=types.ParseMode.HTML)
+    bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
     from aiogram import Router
     router = Router()
     register_handlers(router, db)

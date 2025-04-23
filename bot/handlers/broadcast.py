@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
+from aiogram.enums import ParseMode
 from config import OWNER_ID
 from datetime import datetime
 import re
@@ -13,11 +14,11 @@ async def broadcast_command(message: Message, db, bot):
         return await message.reply("Usage: /broadcast <message>")
     # Detect parse mode
     if re.search(r'<.*?>', text):
-        parse_mode = types.ParseMode.HTML
+        parse_mode = ParseMode.HTML
     elif re.search(r'\\*|_', text):
-        parse_mode = types.ParseMode.MARKDOWN_V2
+        parse_mode = ParseMode.MARKDOWN_V2
     else:
-        parse_mode = types.ParseMode.MARKDOWN
+        parse_mode = ParseMode.MARKDOWN
     # Send to all users and groups
     users = await db["user.pm"].distinct("_id")
     groups = await db["groups"].distinct("_id")

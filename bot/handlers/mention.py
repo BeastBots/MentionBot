@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
+from aiogram.enums import ParseMode
 from datetime import datetime
 
 MENTION_COMMANDS = ["all", "#all", "admin", "#admin"]
@@ -32,7 +33,7 @@ async def mention_all(message: Message, db):
     for i in range(0, len(mentions), batch_size):
         text = " ".join(mentions[i:i+batch_size])
         try:
-            await message.reply(text, parse_mode=types.ParseMode.MARKDOWN if silent else types.ParseMode.HTML, disable_notification=silent)
+            await message.reply(text, parse_mode=ParseMode.MARKDOWN if silent else ParseMode.HTML, disable_notification=silent)
         except Exception:
             continue
     await db["commands.history"].insert_one({
@@ -65,7 +66,7 @@ async def mention_admins(message: Message, db):
     for i in range(0, len(mentions), batch_size):
         text = " ".join(mentions[i:i+batch_size])
         try:
-            await message.reply(text, parse_mode=types.ParseMode.MARKDOWN if silent else types.ParseMode.HTML, disable_notification=silent)
+            await message.reply(text, parse_mode=ParseMode.MARKDOWN if silent else ParseMode.HTML, disable_notification=silent)
         except Exception:
             continue
     await db["commands.history"].insert_one({

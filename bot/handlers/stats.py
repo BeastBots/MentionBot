@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.enums import ParseMode
 from config import OWNER_ID
 from datetime import datetime
 import platform
@@ -47,10 +48,10 @@ def register_stats_handlers(dp: Dispatcher, db):
                 f"CPU: {psutil.cpu_percent()}%\n"
                 f"Storage: {disk.free // (1024**3)}GB free / {disk.total // (1024**3)}GB\n"
             )
-            await call.message.edit_text(text, parse_mode=types.ParseMode.HTML)
+            await call.message.edit_text(text, parse_mode=ParseMode.HTML)
         elif call.data == "stats_chats":
             users = await db["user.pm"].count_documents({})
             groups = await db["groups"].count_documents({})
             text = f"<b>Chats</b>\nUsers: {users}\nGroups: {groups}"
-            await call.message.edit_text(text, parse_mode=types.ParseMode.HTML)
+            await call.message.edit_text(text, parse_mode=ParseMode.HTML)
         await call.answer()

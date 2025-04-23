@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.enums import ParseMode
 from config import OWNER_ID
 from datetime import datetime
 
@@ -45,7 +46,7 @@ def register_settings_handlers(dp: Dispatcher, db):
                 InlineKeyboardButton("Back", callback_data="settings_back"),
                 InlineKeyboardButton("Close", callback_data="settings_close")
             )
-            await call.message.edit_text(text, reply_markup=kb, parse_mode=types.ParseMode.HTML)
+            await call.message.edit_text(text, reply_markup=kb, parse_mode=ParseMode.HTML)
         elif call.data == "settings_silent":
             current = group_settings.get("silent", False)
             text = f"Bot Settings -> Silent Mention\n\nCurrent Setting: <b>{'On' if current else 'Off'}</b>\n\n- Off: Normal @user mention.\n- On: Silent [user](https://t.me/user) mention."
@@ -56,7 +57,7 @@ def register_settings_handlers(dp: Dispatcher, db):
                 InlineKeyboardButton("Back", callback_data="settings_back"),
                 InlineKeyboardButton("Close", callback_data="settings_close")
             )
-            await call.message.edit_text(text, reply_markup=kb, parse_mode=types.ParseMode.HTML)
+            await call.message.edit_text(text, reply_markup=kb, parse_mode=ParseMode.HTML)
         elif call.data == "settings_access":
             current = group_settings.get("access", "admins")
             text = f"Bot Settings -> Bot Access\n\nCurrent Setting: <b>{'Admins Only' if current == 'admins' else 'All Users'}</b>\n\n- Admins Only: Only admins can use mention commands.\n- All Users: Anyone can use mention commands."
@@ -67,7 +68,7 @@ def register_settings_handlers(dp: Dispatcher, db):
                 InlineKeyboardButton("Back", callback_data="settings_back"),
                 InlineKeyboardButton("Close", callback_data="settings_close")
             )
-            await call.message.edit_text(text, reply_markup=kb, parse_mode=types.ParseMode.HTML)
+            await call.message.edit_text(text, reply_markup=kb, parse_mode=ParseMode.HTML)
         elif call.data == "settings_back":
             await call.message.edit_text("Bot Settings", reply_markup=SETTINGS_MENU)
         elif call.data == "settings_close":
