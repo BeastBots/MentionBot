@@ -1,0 +1,6 @@
+aiogram
+motor
+pymongo
+psutil
+python-dotenv
+aiohttp

@@ -1,0 +1,27 @@
+{
+  "name": "Telegram Mention Bot",
+  "description": "A modular Telegram mention bot with MongoDB integration.",
+  "repository": "https://github.com/yourusername/mention-bot",
+  "env": {
+    "BOT_TOKEN": {
+      "description": "Telegram Bot Token",
+      "required": true
+    },
+    "MONGODB_URI": {
+      "description": "MongoDB Connection URI",
+      "required": true
+    },
+    "OWNER_ID": {
+      "description": "Bot Owner Telegram ID",
+      "required": true
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "python -m bot"
+  }
+}

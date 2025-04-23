@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  mention-bot:
+    build: .
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    command: bash ./startup
