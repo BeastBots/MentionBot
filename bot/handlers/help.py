@@ -1,3 +1,4 @@
+import logging
 from aiogram import types
 from aiogram.types import Message
 from aiogram.enums import ParseMode
@@ -27,4 +28,5 @@ async def help_command(message: Message, db):
 def register_help_handlers(router, db):
     @router.message(Command("help"))
     async def handle_help(message: Message):
+        logging.info(f"/help command received in chat {message.chat.id} by user {message.from_user.id}")
         await help_command(message, db)

@@ -1,3 +1,4 @@
+import logging
 from aiogram import types
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.enums import ParseMode
@@ -35,6 +36,7 @@ async def settings_menu(message: Message, db):
 def register_settings_handlers(router, db):
     @router.message(Command("settings"))
     async def handle_settings(message: types.Message):
+        logging.info(f"/settings command received in chat {message.chat.id} by user {message.from_user.id}")
         await settings_menu(message, db)
 
     @router.callback_query()

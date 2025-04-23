@@ -5,6 +5,7 @@ from bot.config_loader import OWNER_ID
 from datetime import datetime
 import re
 from aiogram.filters import Command
+import logging
 
 async def broadcast_command(message: Message, db, bot):
     if message.from_user.id != OWNER_ID:
@@ -38,5 +39,6 @@ async def broadcast_command(message: Message, db, bot):
 def register_broadcast_handlers(router, db):
     @router.message(Command("broadcast"))
     async def handle_broadcast(message: Message):
+        logging.info(f"/broadcast command received in chat {message.chat.id} by user {message.from_user.id}")
         from bot.__main__ import bot
         await broadcast_command(message, db, bot)
