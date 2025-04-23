@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
 from aiogram.enums import ParseMode
-from config import OWNER_ID
+from bot.config_loader import OWNER_ID
 from datetime import datetime
 import re
 

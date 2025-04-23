@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.enums import ParseMode
-from config import OWNER_ID
+from bot.config_loader import OWNER_ID
 from datetime import datetime
 
 SETTINGS_MENU = InlineKeyboardMarkup(row_width=2)

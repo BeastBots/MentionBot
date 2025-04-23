@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 from motor.motor_asyncio import AsyncIOMotorClient
-from config import BOT_TOKEN, MONGODB_URI, OWNER_ID
+from bot.config_loader import BOT_TOKEN, MONGODB_URI, OWNER_ID
 from bot.handlers import register_handlers
 
 # MongoDB setup
