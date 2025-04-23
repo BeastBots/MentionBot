@@ -1,5 +1,6 @@
 import logging
 import asyncio
+import sys
 from aiohttp import web
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
@@ -35,6 +36,18 @@ async def on_startup(bot: Bot):
 
 async def main():
     logging.basicConfig(level=logging.INFO)
+    # Check for UPSTREAM_REPO in config or env before running update.py
+    from bot.config_loader import UPSTREAM_REPO
+    import os
+    upstream_repo = UPSTREAM_REPO or os.environ.get("UPSTREAM_REPO", "")
+    if upstream_repo:
+        try:
+            import subprocess
+            logging.info("Running update.py (git pull) before starting bot...")
+            result = subprocess.run([sys.executable, "-m", "bot.update"], capture_output=True, text=True)
+            logging.info(f"update.py output: {result.stdout}\n{result.stderr}")
+        except Exception as e:
+            logging.error(f"Failed to run update.py: {e}")
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     from aiogram import Router
     router = Router()

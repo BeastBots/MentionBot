@@ -1,7 +1,9 @@
+from bot.config_loader import OWNER_ID
 from aiogram import types
 from aiogram.filters import Command
 from datetime import datetime
 from bot.handlers.mention import register_mention_handlers
+import logging
 
 async def on_new_chat_member(message, db):
     if message.chat.type in ["group", "supergroup"]:
@@ -37,3 +39,12 @@ def register_handlers(router, db):
     @router.message(Command("cancel"))
     async def handle_cancel(message: types.Message):
         await message.reply("❌ Current operation cancelled. If you need help, type /help.")
+    @router.message(Command("restart"))
+    async def handle_restart(message: types.Message):
+        if message.from_user.id != OWNER_ID:
+            await message.reply("Only the bot owner can use this command.")
+            return
+        await message.reply("🔄 Restarting bot...")
+        logging.info(f"/restart command received from owner {message.from_user.id}, exiting for restart.")
+        import os, sys
+        os._exit(0)
