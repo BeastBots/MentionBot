@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Set the working directory to the application root
+cd /app || exit
+
+# Set PYTHONPATH to include the current directory
+export PYTHONPATH=$(pwd)
+
+# Start the bot and the webserver
+python3 -m bot.main &
+python3 /app/webserver.py

@@ -1,0 +1,20 @@
+{
+  "name": "Telegram Mention Bot",
+  "description": "A bot to mention all group members or admins with settings menu.",
+  "repository": "https://github.com/your-repo/telegram-mention-bot",
+  "env": {
+    "BOT_TOKEN": {
+      "description": "Your Telegram bot token",
+      "required": true
+    },
+    "MONGO_URI": {
+      "description": "MongoDB connection URI",
+      "required": true
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
