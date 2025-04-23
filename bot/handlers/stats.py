@@ -1,5 +1,4 @@
 from aiogram import types
-from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.enums import ParseMode
 from bot.config_loader import OWNER_ID
@@ -8,11 +7,15 @@ import platform
 import psutil
 import time
 import os
+from aiogram.filters import Command
 
-STATS_MENU = InlineKeyboardMarkup(row_width=2)
-STATS_MENU.add(
-    InlineKeyboardButton("Bot Stats", callback_data="stats_bot"),
-    InlineKeyboardButton("Chats", callback_data="stats_chats")
+STATS_MENU = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [
+            InlineKeyboardButton(text="Bot Stats", callback_data="stats_bot"),
+            InlineKeyboardButton(text="Chats", callback_data="stats_chats")
+        ]
+    ]
 )
 
 start_time = time.time()
@@ -28,15 +31,16 @@ async def stats_command(message: Message, db):
         "status": "completed"
     })
 
-def register_stats_handlers(dp: Dispatcher, db):
-    @dp.message_handler(commands=["stats"])
+def register_stats_handlers(router, db):
+    @router.message(Command("stats"))
     async def handle_stats(message: Message):
         await stats_command(message, db)
 
-    @dp.callback_query_handler(lambda c: c.data and c.data.startswith("stats_"))
+    @router.callback_query()
     async def handle_stats_callback(call: types.CallbackQuery):
+        if not call.data or not call.data.startswith("stats_"):
+            return
         if call.data == "stats_bot":
-            import platform, psutil, time, os
             uptime = int(time.time() - start_time)
             mem = psutil.virtual_memory()
             disk = psutil.disk_usage("/")

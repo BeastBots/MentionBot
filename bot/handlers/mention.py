@@ -1,5 +1,4 @@
 from aiogram import types
-from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
 from aiogram.enums import ParseMode
 from datetime import datetime
@@ -77,11 +76,13 @@ async def mention_admins(message: Message, db):
         "status": "completed"
     })
 
-def register_mention_handlers(dp: Dispatcher, db):
-    @dp.message_handler(lambda m: m.text and (m.text.lower().startswith("@all") or m.text.lower().startswith("#all")))
-    async def handle_all(message: Message):
-        await mention_all(message, db)
+def register_mention_handlers(router, db):
+    @router.message()
+    async def handle_all(message: types.Message):
+        if message.text and (message.text.lower().startswith("@all") or message.text.lower().startswith("#all")):
+            await mention_all(message, db)
 
-    @dp.message_handler(lambda m: m.text and (m.text.lower().startswith("@admin") or m.text.lower().startswith("#admin")))
-    async def handle_admin(message: Message):
-        await mention_admins(message, db)
+    @router.message()
+    async def handle_admin(message: types.Message):
+        if message.text and (message.text.lower().startswith("@admin") or message.text.lower().startswith("#admin")):
+            await mention_admins(message, db)

@@ -1,10 +1,10 @@
 from aiogram import types
-from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
 from aiogram.enums import ParseMode
 from bot.config_loader import OWNER_ID
 from datetime import datetime
 import re
+from aiogram.filters import Command
 
 async def broadcast_command(message: Message, db, bot):
     if message.from_user.id != OWNER_ID:
@@ -35,8 +35,8 @@ async def broadcast_command(message: Message, db, bot):
         "status": "completed"
     })
 
-def register_broadcast_handlers(dp: Dispatcher, db):
-    @dp.message_handler(commands=["broadcast"])
+def register_broadcast_handlers(router, db):
+    @router.message(Command("broadcast"))
     async def handle_broadcast(message: Message):
         from bot.__main__ import bot
         await broadcast_command(message, db, bot)

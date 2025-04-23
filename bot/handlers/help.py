@@ -1,8 +1,8 @@
 from aiogram import types
-from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message
 from aiogram.enums import ParseMode
 from datetime import datetime
+from aiogram.filters import Command
 
 async def help_command(message: Message, db):
     text = (
@@ -24,7 +24,7 @@ async def help_command(message: Message, db):
         "status": "completed"
     })
 
-def register_help_handlers(dp: Dispatcher, db):
-    @dp.message_handler(commands=["help"])
+def register_help_handlers(router, db):
+    @router.message(Command("help"))
     async def handle_help(message: Message):
         await help_command(message, db)

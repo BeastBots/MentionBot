@@ -3,6 +3,7 @@ import asyncio
 from aiohttp import web
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
+from aiogram.client.default import DefaultBotProperties
 from aiogram.types import BotCommand
 from motor.motor_asyncio import AsyncIOMotorClient
 from bot.config_loader import BOT_TOKEN, MONGODB_URI, OWNER_ID
@@ -34,7 +35,7 @@ async def on_startup(bot: Bot):
 
 async def main():
     logging.basicConfig(level=logging.INFO)
-    bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     from aiogram import Router
     router = Router()
     register_handlers(router, db)
